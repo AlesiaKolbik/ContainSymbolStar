@@ -1,10 +1,10 @@
 package com.testpackage;
 
 public class Lexeme {
-    private String[] array;
-    private int index = 0;
+    protected String[] array;
+    protected int index = 0;
     private int capacity;
-    private String star="*";
+    private String specialSymbol ="*";
 
     Lexeme() {
         this.capacity = 10;
@@ -13,11 +13,11 @@ public class Lexeme {
     }
 
     public void split(String string) {
-        if (isStar(string)) {
+        if (isSpecialSymbol(string)) {
             String separator = " ";
             String word;
             for (int i = 0; i < string.length(); i++) {
-                boolean isStar = star.contains(String.valueOf(string.charAt(i)));
+                boolean isStar = specialSymbol.contains(String.valueOf(string.charAt(i)));
                 if (!isStar) {
                     int startInd = findStartIndWord(string, i, separator);
                     int endInd = findEndIndWord(string, startInd, separator);
@@ -25,18 +25,18 @@ public class Lexeme {
                     this.add(word);
                     i = endInd-1;
                 } else {
-                    this.add(star);
+                    this.add(specialSymbol);
                 }
             }
         } else {
-            System.out.println("Символ '*' не встречается в этой строке.");
+            System.out.println("Символ "+specialSymbol+" не встречается в этой строке.");
         }
     }
 
-    private int findStartIndWord(String string, int index, String separator) {
+    int findStartIndWord(String string, int index, String separator) {
         while (separator.contains(String.valueOf(string.charAt(index)))) {
             index++;
-            if (star.contains(String.valueOf(string.charAt(index)))){
+            if (specialSymbol.contains(String.valueOf(string.charAt(index)))){
                 this.add("*");
                 index++;
             }
@@ -44,17 +44,17 @@ public class Lexeme {
         return index;
     }
 
-    private int findEndIndWord(String string, int index, String separator) {
+    int findEndIndWord(String string, int index, String separator) {
         while (!separator.contains(String.valueOf(string.charAt(index)))) {
             index++;
-            if (index == string.length()|| star.contains(String.valueOf(string.charAt(index)))) {
+            if (index == string.length()|| specialSymbol.contains(String.valueOf(string.charAt(index)))) {
                 break;
             }
         }
         return index;
     }
 
-    private void add(String string) {
+    void add(String string) {
         if (index <= array.length - 1) {
             array[index] = string;
             index++;
@@ -73,14 +73,14 @@ public class Lexeme {
         this.array = newArray;
     }
 
-    private int length() {
+    int length() {
         return this.index;
     }
 
-    private boolean isStar(String string) {
+    boolean isSpecialSymbol(String string) {
         boolean result = false;
         for (int i = 0; i < string.length(); i++) {
-            if (star.contains(String.valueOf(string.charAt(i)))) {
+            if (specialSymbol.contains(String.valueOf(string.charAt(i)))) {
                 result = true;
                 break;
             }
@@ -88,19 +88,19 @@ public class Lexeme {
         return result;
     }
 
-    private String get(int index) {
+    String get(int index) {
         return this.array[index];
     }
 
 
-    public void print() {
-        String firstWordAfterStar = findFirstWordAfterStar();
+    void print() {
+        String firstWordAfterStar = findFirstWordAfterSpecialSymbol();
         int counter=0;
         for (int i = 0; i < this.length(); i++) {
             if (firstWordAfterStar.equals(this.get(i))) {
                 System.out.println(firstWordAfterStar);
             }
-            else if (star.contains(String.valueOf(this.get(i)))) {
+            else if (specialSymbol.contains(String.valueOf(this.get(i)))) {
                 break;
             }
             else {
@@ -113,10 +113,10 @@ public class Lexeme {
     }
 
 
-    private String findFirstWordAfterStar() {
+    String findFirstWordAfterSpecialSymbol() {
         String result = "";
         for (int i = 0; i < this.length(); i++) {
-            if (this.get(i).equals("*")) {
+            if (this.get(i).equals(specialSymbol)) {
                 result = this.get(i + 1);
                 break;
             }
