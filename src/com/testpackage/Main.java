@@ -8,11 +8,17 @@ public class Main {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Введите строку:");
         String input=scanner.nextLine();
-        /*Lexeme lexemeArray=new Lexeme();
+        /*Lexeme lexemeArray = new Lexeme();
         lexemeArray.split(input);
         lexemeArray.print();*/
-        Lexeme1 lexemeArray=new Lexeme1();
+        /*Lexeme1 lexemeArray = new Lexeme1();
         lexemeArray.split(input);
-        lexemeArray.print();
+        lexemeArray.print();*/
+        /*LexemeOfNumbers stringWithNumbers = new LexemeOfNumbers();
+        stringWithNumbers.split(input);
+        stringWithNumbers.print();*/
+        LexemeFindNumbers lexeme=new LexemeFindNumbers();
+        lexeme.split(input);
+        lexeme.print();
     }
 }
